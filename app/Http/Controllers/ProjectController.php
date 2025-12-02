@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Project;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Http\Controllers\Controller;
-use App\Http\Middleware\RoleMiddleware;
 
 class ProjectController extends Controller
 {
@@ -94,6 +92,7 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
+
         return redirect()->route('projects.index')->with('success', 'Projet supprimé.');
     }
 

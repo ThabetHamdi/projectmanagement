@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskComment;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DeveloperDashboardController extends Controller
 {
     /**
      * Display a customized dashboard for developers.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function dashboard(Request $request)
@@ -33,7 +32,7 @@ class DeveloperDashboardController extends Controller
 
         return Inertia::render('DeveloperDashboard', [
             'projects' => $projects,
-            'tasks'    => $tasks,
+            'tasks' => $tasks,
             'comments' => $comments,
         ]);
     }

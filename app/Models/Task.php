@@ -17,7 +17,7 @@ class Task extends Model
         'project_id',
         'assigned_to',
         'created_by',
-        'due_date'
+        'due_date',
     ];
 
     // Relation avec le projet
@@ -39,19 +39,18 @@ class Task extends Model
     }
 
     public function comments()
-{
-    return $this->hasMany(TaskComment::class);
-}
+    {
+        return $this->hasMany(TaskComment::class);
+    }
 
-// TaskComment.php
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    // TaskComment.php
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-
-public function documents()
-{
-    return $this->hasMany(Document::class); // Adjust if your document relationship is different.
-}
+    public function documents()
+    {
+        return $this->hasMany(Document::class); // Adjust if your document relationship is different.
+    }
 }

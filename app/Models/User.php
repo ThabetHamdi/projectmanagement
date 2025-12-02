@@ -44,27 +44,23 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
     public function isAdmin()
-{
-    return $this->role === 'admin';
-}
+    {
+        return $this->role === 'admin';
+    }
 
-public function isManager()
-{
-    return $this->role === 'manager';
-}
+    public function isManager()
+    {
+        return $this->role === 'manager';
+    }
 
-public function isDeveloper()
-{
-    return $this->role === 'developer';
-}
+    public function isDeveloper()
+    {
+        return $this->role === 'developer';
+    }
 
-
-
-public function projects()
-{
-    return $this->belongsToMany(Project::class, 'project_teams');
-}
-
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_teams');
+    }
 }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\ProjectTeam;
 use App\Models\Project;
+use App\Models\ProjectTeam;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Http\Controllers\Controller;
 
 class ProjectTeamController extends Controller
 {

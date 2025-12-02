@@ -238,7 +238,7 @@
   import Dropdown from '@/Components/Dropdown.vue'
   import DropdownLink from '@/Components/DropdownLink.vue'
   import NavLink from '@/Components/NavLink.vue'
-  import { Inertia } from '@inertiajs/inertia'
+  import { router } from '@inertiajs/vue3'
   import axios from 'axios'
   import { Chart, registerables } from 'chart.js'
   import FullCalendar from '@fullcalendar/vue3'
@@ -435,12 +435,12 @@
   const editingUser = ref(null)
 
   const createUser = () => {
-    Inertia.post('/admin/users', form.value, {
+    router.post('/admin/users', form.value, {
       preserveState: true,
       preserveScroll: true,
       onSuccess: () => {
         form.value = { name: '', email: '', password: '', password_confirmation: '', role: 'user' }
-        Inertia.reload({ preserveScroll: true, only: ['users'] })
+        router.reload({ preserveScroll: true, only: ['users'] })
       }
     })
   }
@@ -450,23 +450,23 @@
   }
 
   const updateUser = () => {
-    Inertia.put(`/admin/users/${editingUser.value.id}`, editingUser.value, {
+    router.put(`/admin/users/${editingUser.value.id}`, editingUser.value, {
       preserveState: true,
       preserveScroll: true,
       onSuccess: () => {
         editingUser.value = null
-        Inertia.reload({ preserveScroll: true, only: ['users'] })
+        router.reload({ preserveScroll: true, only: ['users'] })
       }
     })
   }
 
   const deleteUser = (user) => {
     if (confirm('Are you sure you want to delete this user?')) {
-      Inertia.delete(`/admin/users/${user.id}`, {
+      router.delete(`/admin/users/${user.id}`, {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {
-          Inertia.reload({ preserveScroll: true, only: ['users'] })
+          router.reload({ preserveScroll: true, only: ['users'] })
         }
       })
     }
