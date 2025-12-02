@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
@@ -15,10 +14,10 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $role)
     {
-        if (!auth()->check() || auth()->user()->role !== $role) {
+        if (! auth()->check() || auth()->user()->role !== $role) {
             abort(403, 'Accès interdit');
         }
+
         return $next($request);
     }
-
 }

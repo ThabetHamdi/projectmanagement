@@ -32,7 +32,7 @@
   </template>
 
   <script>
-  import { Inertia } from '@inertiajs/inertia';
+  import { router } from '@inertiajs/vue3';
   import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
   export default {
@@ -58,12 +58,12 @@
     },
     methods: {
       submitForm() {
-        Inertia.put(`/tasks/${this.task.id}`, this.task)
+        router.put(`/tasks/${this.task.id}`, this.task)
           .then(() => {
             console.log('Task updated successfully');
             // Redirect to the tasks list for the project
             if (this.task.project_id) {
-              Inertia.visit(`/projects/${this.task.project_id}/tasks`);
+              router.visit(`/projects/${this.task.project_id}/tasks`);
             }
           })
           .catch((error) => {

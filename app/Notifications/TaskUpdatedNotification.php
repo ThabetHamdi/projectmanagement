@@ -3,9 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class TaskUpdatedNotification extends Notification
 {
@@ -26,10 +25,10 @@ class TaskUpdatedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Mise à jour de la tâche : ' . $this->task->title)
-            ->greeting('Bonjour ' . $notifiable->name)
-            ->line('La tâche "' . $this->task->title . '" a été mise à jour.')
-            ->action('Voir la tâche', url('/tasks/' . $this->task->id))
+            ->subject('Mise à jour de la tâche : '.$this->task->title)
+            ->greeting('Bonjour '.$notifiable->name)
+            ->line('La tâche "'.$this->task->title.'" a été mise à jour.')
+            ->action('Voir la tâche', url('/tasks/'.$this->task->id))
             ->line('Merci d\'utiliser notre plateforme !');
     }
 

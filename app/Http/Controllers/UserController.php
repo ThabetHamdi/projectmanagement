@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
 class UserController extends Controller
-
 {
     // ... other methods ...
-
 
     public function index()
     {
@@ -19,6 +17,7 @@ class UserController extends Controller
             'users' => User::all(),
         ]);
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -60,6 +59,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
         return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully');
     }
 }

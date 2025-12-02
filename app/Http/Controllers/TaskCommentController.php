@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\TaskComment;
 use App\Models\Task;
+use App\Models\TaskComment;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TaskCommentController extends Controller

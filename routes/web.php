@@ -1,17 +1,17 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeveloperDashboardController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\ManagerDashboardController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectTeamController;
-use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskCommentController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\ManagerDashboardController;
-use App\Http\Controllers\DeveloperDashboardController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,10 +19,10 @@ use Inertia\Inertia;
 // Public routes
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'canLogin'      => Route::has('login'),
-        'canRegister'   => Route::has('register'),
-        'laravelVersion'=> Application::VERSION,
-        'phpVersion'    => PHP_VERSION,
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
 
@@ -98,15 +98,6 @@ Route::middleware(['auth', 'role:developer'])->prefix('developer')->group(functi
 
 // Authentication routes
 require __DIR__.'/auth.php';
-
-
-
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/developer/dashboard', [DeveloperDashboardController::class, 'dashboard'])
-         ->name('developer.dashboard');
-});
-use App\Http\Controllers\NotificationController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index']);

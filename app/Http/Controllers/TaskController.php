@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Task;
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
-use Inertia\Inertia;
 use App\Notifications\TaskUpdatedNotification;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 use TCPDF;
+
 class TaskController extends Controller
 {
     // Afficher les tâches d'un projet
@@ -23,14 +24,15 @@ class TaskController extends Controller
         return Inertia::render('Tasks/Index', [
             'project' => $project,
             'tasks' => $project->tasks,
-            'users' => $users
+            'users' => $users,
         ]);
     }
 
-    //get all tasks for by project using sql query
+    // get all tasks for by project using sql query
     public function getTasksByProject(Project $project)
     {
         $tasks = Task::where('project_id', $project->id)->get();
+
         return Inertia::render('Tasks/Index', [
             'project' => $project,
             'tasks' => $tasks,
@@ -104,6 +106,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
+
         return redirect()->back()->with('success', 'Tâche supprimée.');
     }
 
@@ -113,68 +116,62 @@ class TaskController extends Controller
         if ($task->due_date && Carbon::now()->gt($task->due_date)) {
             return true; // Task is past due
         }
+
         return false; // Task is not past due
     }
 
-
-
-
     public function edit(Task $task)
-{
-    return Inertia::render('Tasks/Edit', [
-        'taskData' => $task,
-    ]);
-}
-
-
-// Exporter la liste des tâches en PDF
-
-
-
-public function exportPdf(Project $project)
-{
-    $tasks = $project->tasks()->with('assignedUser')->get();
-
-    // Create new PDF instance
-    $pdf = new TCPDF();
-
-    // Set document information
-    $pdf->SetCreator('Laravel');
-    $pdf->SetAuthor('Your App');
-    $pdf->SetTitle('Liste des Tâches - ' . $project->name);
-    $pdf->SetSubject('Liste des Tâches');
-
-    // Set default monospaced font
-    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-    // Set margins
-    $pdf->SetMargins(10, 10, 10);
-    $pdf->SetAutoPageBreak(TRUE, 10);
-
-    // Add a page
-    $pdf->AddPage();
-
-    // Set title
-    $pdf->SetFont('helvetica', 'B', 16);
-    $pdf->Cell(0, 10, 'Liste des Tâches pour le Projet: ' . $project->name, 0, 1, 'C');
-
-    // Set table headers
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->Cell(60, 10, 'Titre', 1, 0, 'C');
-    $pdf->Cell(40, 10, 'Statut', 1, 0, 'C');
-    $pdf->Cell(60, 10, 'Assigné à', 1, 1, 'C');
-
-    // Set table content
-    $pdf->SetFont('helvetica', '', 11);
-    foreach ($tasks as $task) {
-        $pdf->Cell(60, 10, $task->title, 1, 0, 'L');
-        $pdf->Cell(40, 10, $task->status, 1, 0, 'C');
-        $pdf->Cell(60, 10, $task->assignedUser->name ?? 'Non assigné', 1, 1, 'C');
+    {
+        return Inertia::render('Tasks/Edit', [
+            'taskData' => $task,
+        ]);
     }
 
-    // Output the PDF
-    return response($pdf->Output('tasks-' . $project->name . '.pdf', 'I'))
-        ->header('Content-Type', 'application/pdf');
-}
+    // Exporter la liste des tâches en PDF
 
+    public function exportPdf(Project $project)
+    {
+        $tasks = $project->tasks()->with('assignedUser')->get();
+
+        // Create new PDF instance
+        $pdf = new TCPDF;
+
+        // Set document information
+        $pdf->SetCreator('Laravel');
+        $pdf->SetAuthor('Your App');
+        $pdf->SetTitle('Liste des Tâches - '.$project->name);
+        $pdf->SetSubject('Liste des Tâches');
+
+        // Set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // Set margins
+        $pdf->SetMargins(10, 10, 10);
+        $pdf->SetAutoPageBreak(true, 10);
+
+        // Add a page
+        $pdf->AddPage();
+
+        // Set title
+        $pdf->SetFont('helvetica', 'B', 16);
+        $pdf->Cell(0, 10, 'Liste des Tâches pour le Projet: '.$project->name, 0, 1, 'C');
+
+        // Set table headers
+        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->Cell(60, 10, 'Titre', 1, 0, 'C');
+        $pdf->Cell(40, 10, 'Statut', 1, 0, 'C');
+        $pdf->Cell(60, 10, 'Assigné à', 1, 1, 'C');
+
+        // Set table content
+        $pdf->SetFont('helvetica', '', 11);
+        foreach ($tasks as $task) {
+            $pdf->Cell(60, 10, $task->title, 1, 0, 'L');
+            $pdf->Cell(40, 10, $task->status, 1, 0, 'C');
+            $pdf->Cell(60, 10, $task->assignedUser->name ?? 'Non assigné', 1, 1, 'C');
+        }
+
+        // Output the PDF
+        return response($pdf->Output('tasks-'.$project->name.'.pdf', 'I'))
+            ->header('Content-Type', 'application/pdf');
+    }
 }

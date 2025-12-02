@@ -145,8 +145,7 @@
 
   <script>
   import { computed } from 'vue';
-  import { Head, Link } from '@inertiajs/vue3';
-  import { Inertia } from '@inertiajs/inertia';
+  import { Head, Link, router } from '@inertiajs/vue3';
   import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
   import Dropdown from '@/Components/Dropdown.vue';
   import DropdownLink from '@/Components/DropdownLink.vue';
@@ -207,7 +206,7 @@
     methods: {
       async updateTaskStatus(task, status) {
         try {
-          await Inertia.put(`/tasks/${task.id}`, { status });
+          await router.put(`/tasks/${task.id}`, { status });
         } catch (error) {
           console.error('Error updating task status:', error);
         }
@@ -216,7 +215,7 @@
         const commentText = this.newComments[task.id] || '';
         if (commentText.trim()) {
           try {
-            await Inertia.post(`/tasks/${task.id}/comments`, { comment: commentText });
+            await router.post(`/tasks/${task.id}/comments`, { comment: commentText });
             // Clear the comment input for that task after submission.
             this.$set(this.newComments, task.id, '');
           } catch (error) {
@@ -232,7 +231,7 @@
           const formData = new FormData();
           formData.append('file', file);
           try {
-            await Inertia.post(`/tasks/${task.id}/documents`, formData);
+            await router.post(`/tasks/${task.id}/documents`, formData);
             // Clear the file input after upload.
             fileInput.value = '';
           } catch (error) {

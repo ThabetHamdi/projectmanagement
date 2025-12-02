@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -35,9 +34,9 @@ class TaskAssignedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -52,14 +51,12 @@ class TaskAssignedNotification extends Notification
         ];
     }
 
-
     public function toDatabase($notifiable)
-{
-    return [
-        'task_id' => $this->task->id,
-        'title' => "New Task Assigned: " . $this->task->title,
-        'message' => "You have been assigned a new task in project: " . $this->task->project->name,
-    ];
-}
-
+    {
+        return [
+            'task_id' => $this->task->id,
+            'title' => 'New Task Assigned: '.$this->task->title,
+            'message' => 'You have been assigned a new task in project: '.($this->task->project?->name ?? 'Unknown Project'),
+        ];
+    }
 }

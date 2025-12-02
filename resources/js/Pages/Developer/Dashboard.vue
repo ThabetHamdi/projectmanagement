@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
@@ -151,7 +151,7 @@ export default {
     async updateTaskStatus(task, status) {
       this.$set(this.loadingTaskUpdates, task.id, true);
       try {
-        await Inertia.put(`/tasks/${task.id}`, { status });
+        await router.put(`/tasks/${task.id}`, { status });
       } catch (error) {
         console.error('Error updating task status:', error);
       } finally {
@@ -163,7 +163,7 @@ export default {
       if (commentText.trim()) {
         this.$set(this.loadingComments, task.id, true);
         try {
-          await Inertia.post(`/tasks/${task.id}/comments`, { comment: commentText });
+          await router.post(`/tasks/${task.id}/comments`, { comment: commentText });
           this.$set(this.newComments, task.id, '');
         } catch (error) {
           console.error('Error adding comment:', error);
@@ -181,7 +181,7 @@ export default {
         const formData = new FormData();
         formData.append('file', file);
         try {
-          await Inertia.post(`/tasks/${task.id}/documents`, formData);
+          await router.post(`/tasks/${task.id}/documents`, formData);
           fileInput.value = "";
         } catch (error) {
           console.error('Error uploading document:', error);
