@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeveloperDashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ManagerDashboardController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectTeamController;
@@ -97,12 +98,6 @@ Route::middleware(['auth', 'role:developer'])->prefix('developer')->group(functi
 
 // Authentication routes
 require __DIR__.'/auth.php';
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/developer/dashboard', [DeveloperDashboardController::class, 'dashboard'])
-        ->name('developer.dashboard');
-});
-use App\Http\Controllers\NotificationController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index']);

@@ -56,7 +56,7 @@ class TaskAssignedNotification extends Notification
         return [
             'task_id' => $this->task->id,
             'title' => 'New Task Assigned: '.$this->task->title,
-            'message' => 'You have been assigned a new task in project: '.$this->task->project->name,
+            'message' => 'You have been assigned a new task in project: '.($this->task->project?->name ?? 'Unknown Project'),
         ];
     }
 }
